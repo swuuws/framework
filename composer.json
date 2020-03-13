@@ -1,27 +1,27 @@
 {
     "name": "swuuws/framework",
     "description": "The Swuuws Framework.",
-	"keywords": [
+    "keywords": [
         "framework",
         "swuuws"
     ],
-	"license": "MIT",
-	"homepage": "http://swuuws.com",
-	"support": {
+    "license": "MIT",
+    "homepage": "http://swuuws.com",
+    "support": {
         "issues": "https://github.com/swuuws/framework/issues",
         "source": "https://github.com/swuuws/framework"
     },
-	"authors": [
+    "authors": [
         {
             "name": "Alfred Johnson",
             "email": "804644245@qq.com"
         }
     ],
-	"minimum-stability": "dev",
+    "minimum-stability": "dev",
     "require": {
         "php": ">=5.6.0"
     },
-	"autoload": {
+    "autoload": {
         "psr-4": {
             "swuuws\\": "src/swuuws/"
         }
