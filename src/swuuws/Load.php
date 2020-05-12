@@ -71,7 +71,7 @@ class Load
             foreach($file as $val){
                 $re = self::loadSingleFile(rtrim($prefix, DS) . DS . ltrim($val, DS));
                 if(is_array($re)){
-                    array_merge($result, $re);
+                    $result = array_merge($result, $re);
                 }
             }
         }
