@@ -27,7 +27,7 @@ class Separate implements iCaptcha
         }
         imagefilledrectangle(self::$swuuws_img, 0, 0, $width, $height, $bg_color);
         $char = '2345678abcdefhijkmnpqrstuvwxyzABCDEFGHJKLMNPQRTUVWXY';
-        $ttfPath = File::parentDirectory(__DIR__, 4) . DS . 'ttfs';
+        $ttfPath = File::parentDirectory(__DIR__, 2) . DS . 'ttfs';
         $ttfArr = File::listFiles($ttfPath, 'ttf', true);
         $ttfc = count($ttfArr) - 1;
         $font = $ttfPath . DS . $ttfArr[mt_rand(0, $ttfc)];
