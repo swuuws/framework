@@ -24,7 +24,7 @@ class Env
             self::$env = parse_ini_file($env, true);
         }
         else{
-            self::$env = Load::loadFile(['config', 'db', 'custom'], APP . 'config');
+            self::$env = Load::loadFile(['config', 'db', 'custom'], 'config');
         }
         date_default_timezone_set(isset(self::$env['TIME_ZONE']) ? self::$env['TIME_ZONE'] : 'UTC');
     }
