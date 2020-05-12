@@ -188,7 +188,7 @@ class Validate
     {
         $rule = strtolower(trim(self::$verification_rule));
         if(!self::$verification_lang){
-            Lang::load(File::parentDirectory(__DIR__, 3) . DS . 'lang' . DS . Lang::getAuto() . '.php', true);
+            Lang::load(File::parentDirectory(__DIR__, 1) . DS . 'lang' . DS . Lang::getAuto() . '.php', true);
             self::$verification_lang = true;
         }
         switch($rule){
