@@ -31,7 +31,7 @@ class Upload
     }
     public function __construct()
     {
-        Lang::load(File::parentDirectory(__DIR__, 4) . DS . 'lang' . DS . Lang::getAuto() . '.php', true);
+        Lang::load(File::parentDirectory(__DIR__, 2) . DS . 'lang' . DS . Lang::getAuto() . '.php', true);
     }
     public static function getInstance()
     {
