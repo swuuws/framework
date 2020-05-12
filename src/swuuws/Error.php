@@ -33,7 +33,7 @@ class Error
         $logLevel = strtolower(Env::get('LOG_LEVEL'));
         if(isset(self::$error['prompt'])){
             $debug = (bool)Env::get('APP_DEBUG');
-            $dir = File::parentDirectory(__DIR__, 3);
+            $dir = File::parentDirectory(__DIR__, 1);
             Lang::load($dir . DS . 'lang' . DS . Lang::getAuto() . '.php', true);
             self::$error['prompt'][0] = Lang::lang(self::$error['prompt'][0]);
             $colon = strpos(self::$error['prompt'][1], ':');
