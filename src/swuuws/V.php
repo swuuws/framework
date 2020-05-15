@@ -77,4 +77,12 @@ class V
     {
         return 'minlen';
     }
+    public static function equal()
+    {
+        return 'equal';
+    }
+    public static function getValue($name)
+    {
+        return Validate::outValue($name);
+    }
 }
