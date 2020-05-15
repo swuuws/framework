@@ -10,6 +10,7 @@ namespace swuuws;
 class Request
 {
     private static $dataArr = null;
+    private static $pretreatment = false;
     public static function isHttps()
     {
         if(isset($_SERVER['HTTPS']) && in_array(strtolower($_SERVER['HTTPS']), ['on', '1'])){
@@ -98,6 +99,7 @@ class Request
     }
     public static function getPost($name, $conversion = true)
     {
+        self::pretreatment();
         if(isset($_POST[$name])){
             if($conversion){
                 return htmlspecialchars(urldecode($_POST[$name]), ENT_QUOTES, 'UTF-8');
@@ -189,9 +191,7 @@ class Request
     }
     private static function getData($name, $conversion = true)
     {
-        if(self::$dataArr == null){
-            parse_str(file_get_contents('php://input'), self::$dataArr);
-        }
+        self::preData();
         if(isset(self::$dataArr[$name])){
             if($conversion){
                 return htmlspecialchars(urldecode(self::$dataArr[$name]), ENT_QUOTES, 'UTF-8');
@@ -230,14 +230,41 @@ class Request
     }
     private static function hasData($name)
     {
-        if(self::$dataArr == null){
-            parse_str(file_get_contents('php://input'), self::$dataArr);
-        }
+        self::preData();
         if(isset(self::$dataArr[$name])){
             return true;
         }
         else{
             return false;
+        }
+    }
+    private static function pretreatment()
+    {
+        if(!self::$pretreatment){
+            $tmpArr = self::getinput();
+            $_POST = array_merge($_POST, $tmpArr);
+            self::$pretreatment = true;
+        }
+    }
+    private static function getinput()
+    {
+        $result = [];
+        if(isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false){
+            $result = json_decode(file_get_contents('php://input'), true);
+        }
+        elseif(isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'text/xml') !== false){
+            $object = simplexml_load_string(file_get_contents('php://input'));
+            $result = json_decode(json_encode($object), true);
+        }
+        return $result;
+    }
+    private static function preData()
+    {
+        if(self::$dataArr == null){
+            self::$dataArr = self::getinput();
+            if(count(self::$dataArr) < 1){
+                parse_str(file_get_contents('php://input'), self::$dataArr);
+            }
         }
     }
 }
