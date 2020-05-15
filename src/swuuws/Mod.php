@@ -893,7 +893,7 @@ class Mod
         }
         if(isset($tableArr['where'])){
             $relation = $tableArr['where'][0];
-            if(isset($tableArr['where'][1])){
+            if(isset($tableArr['where'][1]) && is_array($tableArr['where'][1]) && count($tableArr['where'][1]) > 0){
                 $tmpArr = array_keys($tableArr['where'][1]);
                 if(substr($tmpArr[0], 0, 1) == ':'){
                     foreach($tableArr['where'][1] as $rkey => $rval){
