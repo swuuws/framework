@@ -33,6 +33,7 @@ class NewModel
             self::$modelName = $name;
             self::$model = [];
             self::$index = [];
+            self::$fields = [];
             self::$model[self::$modelName] = [];
         }
         else{
