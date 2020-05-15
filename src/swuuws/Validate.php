@@ -276,6 +276,11 @@ class Validate
                     self::handlingError(Lang::lang('Length is less than allowable range'));
                 }
                 break;
+            case 'equal':
+                if(self::$verification_goal != self::$verification_rule_attach){
+                    self::handlingError(Lang::lang('Values must be equal'));
+                }
+                break;
             case 'captcha':
                 if(Env::has('CAPTCHA_MARK')){
                     $captcha = Captcha::setKey(Env::get('CAPTCHA_MARK'))->verify(self::$verification_goal);
@@ -384,5 +389,32 @@ class Validate
             self::$verification_error = $defaultInfo;
         }
         self::$verification_message[] = empty(self::$verification_name) ? self::$verification_error : [self::$verification_name, self::$verification_error];
+    }
+    public static function outValue($name)
+    {
+        if(isset(self::$verification_parameter[$name])){
+            return self::$verification_parameter[$name];
+        }
+        return '';
+    }
+    public static function errorToString($data, $haskey = false)
+    {
+        $result = '';
+        foreach($data as $akey => $aval){
+            if($haskey){
+                $result .= empty($result) ? $akey . ': ' : '; ' . $akey . ': ';
+            }
+            $tmp = '';
+            foreach($aval as $val){
+                $tmp .= empty($tmp) ? $val : ', ' . $val;
+            }
+            if($haskey){
+                $result .= $tmp;
+            }
+            else{
+                $result .= empty($result) ? $tmp : ', ' . $tmp;
+            }
+        }
+        return $result;
     }
 }
