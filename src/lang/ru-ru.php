@@ -77,4 +77,5 @@ return [
     'Verification code error' => 'Ошибка кода подтверждения',
     'The length exceeds the allowable range' => 'Длина превышает допустимый диапазон',
     'Length is less than allowable range' => 'Длина меньше допустимого диапазона',
+    'Values must be equal' => 'Значения должны быть равны',
 ];
