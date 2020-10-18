@@ -24,6 +24,7 @@ class Validate
     private static $verification_lang = false;
     private static $verification_isrule = false;
     private static $verification_prevrule = [];
+    private static $verification_shortfailure = false;
     private static $instance;
     private static function instance()
     {
@@ -49,6 +50,23 @@ class Validate
         }
         return self::instance();
     }
+    public static function hasPostValue($name)
+    {
+        if(self::$verification_continue){
+            self::process();
+            $name = trim($name);
+            if(Request::hasPost($name)){
+                self::$verification_name = $name;
+                $tmpval = Request::getPost($name);
+                self::$verification_parameter[$name] = $tmpval;
+                return self::goalValue($tmpval);
+            }
+            else{
+                self::$verification_shortfailure = true;
+            }
+        }
+        return self::instance();
+    }
     public static function getValue($name)
     {
         if(self::$verification_continue){
@@ -62,6 +80,23 @@ class Validate
             }
             else{
                 throw new ValidateException(1, ': ' . $name);
+            }
+        }
+        return self::instance();
+    }
+    public static function hasGetValue($name)
+    {
+        if(self::$verification_continue){
+            self::process();
+            $name = trim($name);
+            if(Request::hasGet($name)){
+                self::$verification_name = $name;
+                $tmpval = Request::getGet($name);
+                self::$verification_parameter[$name] = $tmpval;
+                return self::goalValue($tmpval);
+            }
+            else{
+                self::$verification_shortfailure = true;
             }
         }
         return self::instance();
@@ -83,6 +118,23 @@ class Validate
         }
         return self::instance();
     }
+    public static function hasPutValue($name)
+    {
+        if(self::$verification_continue){
+            self::process();
+            $name = trim($name);
+            if(Request::hasPut($name)){
+                self::$verification_name = $name;
+                $tmpval = Request::getPut($name);
+                self::$verification_parameter[$name] = $tmpval;
+                return self::goalValue($tmpval);
+            }
+            else{
+                self::$verification_shortfailure = true;
+            }
+        }
+        return self::instance();
+    }
     public static function deleteValue($name)
     {
         if(self::$verification_continue){
@@ -100,6 +152,23 @@ class Validate
         }
         return self::instance();
     }
+    public static function hasDeleteValue($name)
+    {
+        if(self::$verification_continue){
+            self::process();
+            $name = trim($name);
+            if(Request::hasDelete($name)){
+                self::$verification_name = $name;
+                $tmpval = Request::getDelete($name);
+                self::$verification_parameter[$name] = $tmpval;
+                return self::goalValue($tmpval);
+            }
+            else{
+                self::$verification_shortfailure = true;
+            }
+        }
+        return self::instance();
+    }
     public static function patchValue($name)
     {
         if(self::$verification_continue){
@@ -113,6 +182,23 @@ class Validate
             }
             else{
                 throw new ValidateException(4, ': ' . $name);
+            }
+        }
+        return self::instance();
+    }
+    public static function hasPatchValue($name)
+    {
+        if(self::$verification_continue){
+            self::process();
+            $name = trim($name);
+            if(Request::hasPatch($name)){
+                self::$verification_name = $name;
+                $tmpval = Request::getPatch($name);
+                self::$verification_parameter[$name] = $tmpval;
+                return self::goalValue($tmpval);
+            }
+            else{
+                self::$verification_shortfailure = true;
             }
         }
         return self::instance();
@@ -137,7 +223,7 @@ class Validate
     }
     public static function rule($rule, $attach = '')
     {
-        if(self::$verification_continue){
+        if(self::$verification_continue && !self::$verification_shortfailure){
             if(self::$verification_goal_mark == true && self::$verification_isrule){
                 self::$verification_rule = self::$verification_prevrule[0];
                 self::$verification_rule_attach = self::$verification_prevrule[1];
@@ -157,7 +243,7 @@ class Validate
     }
     public static function ifError($error)
     {
-        if(self::$verification_continue){
+        if(self::$verification_continue && !self::$verification_shortfailure){
             self::$verification_error = $error;
             if(self::$verification_goal_mark == true && self::$verification_rule !== ''){
                 self::verify();
@@ -381,6 +467,7 @@ class Validate
         }
         self::$verification_isrule = false;
         self::$verification_prevrule = [];
+        self::$verification_shortfailure = false;
     }
     private static function handlingError($defaultInfo)
     {
