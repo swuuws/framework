@@ -40,10 +40,10 @@ class Db
      * @param  $sql, $array
      * @return boolean
      */
-    public static function query($sql, $array = [])
+    public static function query($sql, $array = [], $mode = 'name')
     {
         self::prepare();
-        return call_user_func('swuuws\\db\\' . self::$type . '::query', $sql, $array);
+        return call_user_func('swuuws\\db\\' . self::$type . '::query', $sql, $array, $mode);
     }
     public static function setLast($name = null)
     {
