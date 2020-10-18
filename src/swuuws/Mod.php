@@ -27,13 +27,37 @@ class Mod
     public function get()
     {
         $resultArr = $this->getStatement();
-        if(count($resultArr[1]) > 0){
-            $result = Db::query($resultArr[0], $resultArr[1]);
+        return $this->runQuery($resultArr);
+    }
+    public function getSet($func = '')
+    {
+        $result = $this->get();
+        $reArr = [];
+        if($result){
+            $reArr =  Db::getAll();
+        }
+        if($func != ''){
+            $func($reArr);
+            return null;
         }
         else{
-            $result = Db::query($resultArr[0]);
+            return $reArr;
         }
-        return $result;
+    }
+    public function getOne($func = '')
+    {
+        $result = $this->get();
+        $reArr = [];
+        if($result){
+            $reArr = Db::get();
+        }
+        if($func != ''){
+            $func($reArr);
+            return null;
+        }
+        else{
+            return $reArr;
+        }
     }
     public function paginate($perPage, $total = 0, $parameter = [], $maxShow = -1, $pnShow = null, $prev = '&laquo;', $next = '&raquo;')
     {
@@ -66,12 +90,7 @@ class Mod
         else{
             $resultArr[0] = $resultArr[0] . ' LIMIT ' . $perPage . ' OFFSET ' . $offset;
         }
-        if(count($resultArr[1]) > 0){
-            Db::query($resultArr[0], $resultArr[1]);
-        }
-        else{
-            Db::query($resultArr[0]);
-        }
+        $this->runQuery($resultArr);
         $totalPage = ceil($total / $perPage);
         $pages = Paginate::pages($currentPage, $totalPage, $query, $maxShow, $pnShow, $prev, $next);
         $result = [
@@ -117,12 +136,7 @@ class Mod
             $findex = stripos($resultArr[0], ' FROM ');
             $resultArr[0] = 'SELECT ' . $upop . '(' . $field . ') as ' . $lwop . '_swuuws' . substr($resultArr[0], $findex);
         }
-        if(count($resultArr[1]) > 0){
-            Db::query($resultArr[0], $resultArr[1]);
-        }
-        else{
-            Db::query($resultArr[0]);
-        }
+        $this->runQuery($resultArr);
         $row = Model::getRow();
         return $row[$lwop . '_swuuws'];
     }
@@ -150,14 +164,26 @@ class Mod
             $findex = stripos($statement, ' FROM ');
             $resultArr[0] = 'SELECT COUNT(' . $field . ') as total' . substr($statement, $findex);
         }
-        if(count($resultArr[1]) > 0){
-            Db::query($resultArr[0], $resultArr[1]);
-        }
-        else{
-            Db::query($resultArr[0]);
-        }
+        $this->runQuery($resultArr);
         $row = Model::getRow();
         return $row['total'];
+    }
+    private function runQuery(&$resultArr)
+    {
+        $mode = 'name';
+        if(Env::has('GET_RECORD_MODE')){
+            $emode = strtolower(trim(Env::get('GET_RECORD_MODE')));
+            if(in_array($emode, ['name', 'number', 'both'])){
+                $mode = $emode;
+            }
+        }
+        if(count($resultArr[1]) > 0){
+            $result = Db::query($resultArr[0], $resultArr[1], $mode);
+        }
+        else{
+            $result = Db::query($resultArr[0], [], $mode);
+        }
+        return $result;
     }
     private function getStatement()
     {
