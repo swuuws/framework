@@ -51,6 +51,12 @@ class Response
         self::$needOut = true;
         return self::instance();
     }
+    public static function writeEnd()
+    {
+        $args = func_get_args();
+        self::$out .= self::assembly($args);
+        exit();
+    }
     public static function dump()
     {
         $args = func_get_args();
