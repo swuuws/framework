@@ -77,4 +77,5 @@ return [
     'Verification code error' => 'Verification code error',
     'The length exceeds the allowable range' => 'The length exceeds the allowable range',
     'Length is less than allowable range' => 'Length is less than allowable range',
+    'Values must be equal' => 'Values must be equal',
 ];
