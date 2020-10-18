@@ -77,4 +77,5 @@ return [
     'Verification code error' => '验证码错误',
     'The length exceeds the allowable range' => '长度超出允许范围',
     'Length is less than allowable range' => '长度小于允许范围',
+    'Values must be equal' => '值必须相等',
 ];
