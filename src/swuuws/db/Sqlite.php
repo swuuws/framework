@@ -55,17 +55,30 @@ class Sqlite implements iDb
         self::$lastInsertId = $pdo->lastInsertId(self::$lastName);
         return $result;
     }
-    public static function query($sql, $array = [])
+    public static function query($sql, $array = [], $mode = 'name')
     {
         self::$result = null;
         $pdo = self::connect();
+        switch($mode){
+            case 'number':
+                $queryMode = PDO::FETCH_NUM;
+                break;
+            case 'both':
+                $queryMode = PDO::FETCH_BOTH;
+                break;
+            default:
+                $queryMode = PDO::FETCH_ASSOC;
+                break;
+        }
         if(is_array($array) && count($array) > 0){
             $pre = $pdo->prepare($sql);
+            $pre->setFetchMode($queryMode);
             $pre->execute($array);
             self::$result = $pre;
         }
         else{
             self::$result = $pdo->query($sql);
+            self::$result->setFetchMode($queryMode);
         }
         if(!empty(self::$result)){
             return true;
