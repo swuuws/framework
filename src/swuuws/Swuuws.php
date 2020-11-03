@@ -250,7 +250,15 @@ class Swuuws
         if(strpos($method, '_') !== false){
             $method = self::transform($method, false);
         }
-        $result = Load::load($mm, $method, $param, false);
+        $isThrow = false;
+        if(Env::get('APP_DEBUG') == true){
+            $isThrow = true;
+        }
+        $result = Load::load($mm, $method, $param, $isThrow);
+        if(!$result && !$isThrow){
+            $_ENV['SWUUWS_VIEW'] = 'index/missed';
+            $result = Load::load('index\Index', 'missed', $param, $isThrow);
+        }
         return $result;
     }
     public static function getParam()
