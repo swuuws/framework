@@ -35,6 +35,9 @@ class Mod
         $reArr = [];
         if($result){
             $reArr =  Db::getAll();
+            if(empty($reArr)){
+                $reArr = [];
+            }
         }
         if($func != ''){
             $func($reArr);
@@ -50,6 +53,9 @@ class Mod
         $reArr = [];
         if($result){
             $reArr = Db::get();
+            if(empty($reArr)){
+                $reArr = [];
+            }
         }
         if($func != ''){
             $func($reArr);
