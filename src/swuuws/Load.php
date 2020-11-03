@@ -46,7 +46,12 @@ class Load
                         try{
                             $args[] = $param->getDefaultValue();
                         } catch(\Exception $e){
-                            throw new RouteException(10, ': ' . $controller . '\\' . $method);
+                            if($isThrow){
+                                throw new RouteException(10, ': ' . $controller . '\\' . $method);
+                            }
+                            else{
+                                return false;
+                            }
                         }
                     }
                 }
@@ -57,7 +62,12 @@ class Load
             }
         }
         else{
-            throw new RouteException(5, ': ' . $method);
+            if($isThrow){
+                throw new RouteException(5, ': ' . $method);
+            }
+            else{
+                return false;
+            }
         }
         if(!empty($result)){
             Response::write($result);
