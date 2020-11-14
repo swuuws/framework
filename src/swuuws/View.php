@@ -59,6 +59,9 @@ class View
     public static function viewPath($path)
     {
         self::$viewPath = rtrim(str_replace(['/', '\\'], DS, $path), DS);
+        if(stripos(self::$viewPath, ROOT) === false){
+            self::$viewPath = ROOT . DS . ltrim(self::$viewPath, DS);
+        }
         return self::instance();
     }
     public static function view($name = '')
@@ -82,13 +85,10 @@ class View
         }
         if(!empty($name)){
             $name = rtrim(str_replace(['/', '\\'], DS, $name), DS);
-            if(stripos($name, APP) === false){
+            if(stripos($name, ROOT) === false){
                 $name = ltrim($name, DS);
                 if(empty(self::$viewPath)){
-                    if(strtolower(substr($name, 0, 5)) !== 'view' . DS){
-                        $name = 'view' . DS . $name;
-                    }
-                    $name = APP . $name;
+                    $name = ROOT . $name;
                 }
                 else{
                     $name = self::$viewPath . DS . $name;
@@ -96,7 +96,13 @@ class View
             }
         }
         else{
-            $name = APP .'view' . DS . str_replace('/', DS, $_ENV['SWUUWS_VIEW']);
+            if(empty(self::$viewPath)){
+                $name = APP .'view' . DS . str_replace('/', DS, $_ENV['SWUUWS_VIEW']);
+            }
+            else{
+                $swuuws = explode('/', $_ENV['SWUUWS_VIEW']);
+                $name = self::$viewPath . DS . end($swuuws);
+            }
         }
         $name = self::chkSuffix($name);
         return $name;
