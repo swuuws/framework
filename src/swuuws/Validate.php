@@ -336,9 +336,34 @@ class Validate
                     self::handlingError(Lang::lang('Must be letters'));
                 }
                 break;
+            case 'letternumber':
+                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z0-9]+$/']])){
+                    self::handlingError(Lang::lang('Can only be letters and numbers'));
+                }
+                break;
+            case 'startletternumber':
+                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z][A-Za-z0-9]*$/']])){
+                    self::handlingError(Lang::lang('Can only be letters and numbers, and start with a letter'));
+                }
+                break;
             case 'letterunder':
                 if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z\_]+$/']])){
                     self::handlingError(Lang::lang('Only letters and underscores'));
+                }
+                break;
+            case 'startletterunder':
+                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z][A-Za-z\_]*$/']])){
+                    self::handlingError(Lang::lang('Can only be letters and underscores, and start with a letter'));
+                }
+                break;
+            case 'letternumberunder':
+                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z0-9\_]+$/']])){
+                    self::handlingError(Lang::lang('Only letters, numbers and underscores'));
+                }
+                break;
+            case 'startletternumberunder':
+                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z][A-Za-z0-9\_]*$/']])){
+                    self::handlingError(Lang::lang('Can only be letters, numbers and underscores, and start with a letter'));
                 }
                 break;
             case 'letterhyphen':
@@ -346,10 +371,43 @@ class Validate
                     self::handlingError(Lang::lang('Only letters and connecting lines'));
                 }
                 break;
+            case 'startletterhyphen':
+                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z][A-Za-z\-]*$/']])){
+                    self::handlingError(Lang::lang('Can only be letters and connecting lines, and start with a letter'));
+                }
+                break;
+            case 'letternumberhyphen':
+                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z0-9\-]+$/']])){
+                    self::handlingError(Lang::lang('Only letters, numbers and connecting lines'));
+                }
+                break;
+            case 'startletternumberhyphen':
+                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z][A-Za-z0-9\-]*$/']])){
+                    self::handlingError(Lang::lang('Can only be letters, numbers and connecting lines, and start with a letter'));
+                }
+                break;
             case 'letterhyphenunder':
             case 'letterunderhyphen':
                 if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z\-\_]+$/']])){
                     self::handlingError(Lang::lang('Only letters, underscores and connecting lines'));
+                }
+                break;
+            case 'startletterhyphenunder':
+            case 'startletterunderhyphen':
+                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z][A-Za-z\-\_]*$/']])){
+                    self::handlingError(Lang::lang('Can only be letters, underscores and connecting lines, and start with a letter'));
+                }
+                break;
+            case 'letternumberhyphenunder':
+            case 'letternumberunderhyphen':
+                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z0-9\-\_]+$/']])){
+                    self::handlingError(Lang::lang('Can only be letters, numbers, underscores, connecting lines'));
+                }
+                break;
+            case 'startletternumberhyphenunder':
+            case 'startletternumberunderhyphen':
+                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z][A-Za-z0-9\-\_]*$/']])){
+                    self::handlingError(Lang::lang('Can only be letters, numbers, underscores and connecting lines, and start with a letter'));
                 }
                 break;
             case 'maxlen':
