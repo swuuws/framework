@@ -1090,6 +1090,9 @@ class Mod
         if($relation != null){
             $uarr = [];
             if($relationArr != null){
+                if(!is_array($relationArr)){
+                    $relationArr = [$relationArr];
+                }
                 $tmpArr = array_keys($relationArr);
                 if(substr($tmpArr[0], 0, 1) == ':'){
                     foreach($relationArr as $rkey => $rval){
@@ -1134,6 +1137,9 @@ class Mod
         $sql = 'UPDATE ' . $this->tableName() . ' SET ' . $setv;
         if($relation != null){
             if($relationArr != null){
+                if(!is_array($relationArr)){
+                    $relationArr = [$relationArr];
+                }
                 $tmpArr = array_keys($relationArr);
                 if(substr($tmpArr[0], 0, 1) == ':'){
                     foreach($relationArr as $rkey => $rval){
@@ -1185,6 +1191,9 @@ class Mod
         else{
             $condition = $relation;
             if($relationArr != null){
+                if(!is_array($relationArr)){
+                    $relationArr = [$relationArr];
+                }
                 $uarr = $relationArr;
             }
         }
