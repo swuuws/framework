@@ -55,6 +55,56 @@ class Lang
             }
         }
     }
+    public static function loadPack($path, $regulated = false)
+    {
+        $find = false;
+        $path = rtrim(str_replace(['/', '\\'], DS, $path), DS);
+        if(!$regulated){
+            if(stripos($path, ROOT) === false){
+                $path = ROOT . DS . ltrim($path, DS);
+            }
+        }
+        $path .= DS;
+        foreach(self::$langs as $val){
+            if(!self::$isGet && !self::$isCookie && self::$auto && !in_array($val, self::$judgment)){
+                continue;
+            }
+            $file = $path . $val . '.php';
+            if(is_file($file)){
+                self::load($file, true, false);
+                $find = true;
+                break;
+            }
+            else{
+                if(false !== $index = strpos($val, '-')){
+                    $sval = substr($val, 0, $index + 1) . '*.php';
+                }
+                else{
+                    $dindex = strpos($val, '.');
+                    if($dindex === false){
+                        $dindex = strlen($val);
+                    }
+                    $sval = substr($val, 0, $dindex) . '-*.php';
+                }
+                $sfile = $path . $sval;
+                $sarr = glob($sfile);
+                if(is_array($sarr) && count($sarr) > 0){
+                    if(is_file($sarr[0])){
+                        self::load($sarr[0], true, false);
+                        $find = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if(!$find){
+            $applang = trim(Env::get('DEFAULT_LANG'));
+            if(!empty($applang)){
+                $file = $path . $applang . '.php';
+                self::load($file, true, false);
+            }
+        }
+    }
     public static function lang($lang)
     {
         if(isset(self::$lang[$lang])){
