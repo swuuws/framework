@@ -85,4 +85,48 @@ class V
     {
         return Validate::outValue($name);
     }
+    public static function letterNumber()
+    {
+        return 'letterNumber';
+    }
+    public static function startLetterNumber()
+    {
+        return 'startLetterNumber';
+    }
+    public static function startLetterUnder()
+    {
+        return 'startLetterUnder';
+    }
+    public static function letterNumberUnder()
+    {
+        return 'letterNumberUnder';
+    }
+    public static function startLetterNumberUnder()
+    {
+        return 'startLetterNumberUnder';
+    }
+    public static function startLetterHyphen()
+    {
+        return 'startLetterHyphen';
+    }
+    public static function letterNumberHyphen()
+    {
+        return 'letterNumberHyphen';
+    }
+    public static function startLetterNumberHyphen()
+    {
+        return 'startLetterNumberHyphen';
+    }
+    public static function startLetterHyphenUnder()
+    {
+        return 'startLetterHyphenUnder';
+    }
+    public static function letterNumberHyphenUnder()
+    {
+        return 'letterNumberHyphenUnder';
+    }
+    public static function startLetterNumberHyphenUnder()
+    {
+        return 'startLetterNumberHyphenUnder';
+    }
 }
