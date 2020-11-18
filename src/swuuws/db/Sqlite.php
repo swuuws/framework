@@ -113,8 +113,10 @@ class Sqlite implements iDb
             self::beginTransaction();
             $func();
             self::commit();
+            return true;
         } catch(PdoException $e){
             self::rollBack();
+            return $e->getMessage();
         }
     }
     public static function get()
@@ -351,11 +353,11 @@ class Sqlite implements iDb
                     $sql .= ' AUTOINCREMENT';
                 }
                 if(isset($aval['defaults'])){
-                    if(empty($aval['defaults'])){
-                        $sql .= ' DEFAULT \'\'';
-                    }
-                    elseif(is_numeric($aval['defaults'])){
+                    if(is_numeric($aval['defaults'])){
                         $sql .= ' DEFAULT ' . $aval['defaults'];
+                    }
+                    elseif(empty($aval['defaults'])){
+                        $sql .= ' DEFAULT \'\'';
                     }
                     else{
                         $sql .= ' DEFAULT \'' . $aval['defaults'] . '\'';
