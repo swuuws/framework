@@ -97,10 +97,23 @@ class Request
         }
         return false;
     }
-    public static function getPost($name, $conversion = true)
+    public static function getPost($name = null, $conversion = true)
     {
         self::pretreatment();
-        if(isset($_POST[$name])){
+        if(empty($name)){
+            if($conversion){
+                foreach($_POST as $key => $val){
+                    $_POST[$key] = htmlspecialchars(urldecode($val), ENT_QUOTES, 'UTF-8');
+                }
+            }
+            else{
+                foreach($_POST as $key => $val){
+                    $_POST[$key] = urldecode($val);
+                }
+            }
+            return $_POST;
+        }
+        elseif(isset($_POST[$name])){
             if($conversion){
                 return htmlspecialchars(urldecode($_POST[$name]), ENT_QUOTES, 'UTF-8');
             }
@@ -126,14 +139,27 @@ class Request
         }
         return false;
     }
-    public static function getGet($name, $conversion = true)
+    public static function getGet($name = null, $conversion = true)
     {
-        if(isset($_GET[$name])){
+        if(empty($name)){
             if($conversion){
-                return htmlspecialchars($_GET[$name], ENT_QUOTES, 'UTF-8');
+                foreach($_GET as $key => $val){
+                    $_GET[$key] = htmlspecialchars(urldecode($val), ENT_QUOTES, 'UTF-8');
+                }
             }
             else{
-                return $_GET[$name];
+                foreach($_GET as $key => $val){
+                    $_GET[$key] = urldecode($val);
+                }
+            }
+            return $_GET;
+        }
+        elseif(isset($_GET[$name])){
+            if($conversion){
+                return htmlspecialchars(urldecode($_GET[$name]), ENT_QUOTES, 'UTF-8');
+            }
+            else{
+                return urldecode($_GET[$name]);
             }
         }
         else{
@@ -189,10 +215,28 @@ class Request
         }
         return false;
     }
-    private static function getData($name, $conversion = true)
+    private static function getData($name = null, $conversion = true)
     {
         self::preData();
-        if(isset(self::$dataArr[$name])){
+        if(empty($name)){
+            if(empty(self::$dataArr)){
+                return [];
+            }
+            else{
+                if($conversion){
+                    foreach(self::$dataArr as $key => $val){
+                        self::$dataArr[$key] = htmlspecialchars(urldecode($val), ENT_QUOTES, 'UTF-8');
+                    }
+                }
+                else{
+                    foreach(self::$dataArr as $key => $val){
+                        self::$dataArr[$key] = urldecode($val);
+                    }
+                }
+                return self::$dataArr;
+            }
+        }
+        elseif(isset(self::$dataArr[$name])){
             if($conversion){
                 return htmlspecialchars(urldecode(self::$dataArr[$name]), ENT_QUOTES, 'UTF-8');
             }
@@ -204,15 +248,15 @@ class Request
             return false;
         }
     }
-    public static function getPut($name, $conversion = true)
+    public static function getPut($name = null, $conversion = true)
     {
         return self::getData($name, $conversion);
     }
-    public static function getDelete($name, $conversion = true)
+    public static function getDelete($name = null, $conversion = true)
     {
         return self::getData($name, $conversion);
     }
-    public static function getPatch($name, $conversion = true)
+    public static function getPatch($name = null, $conversion = true)
     {
         return self::getData($name, $conversion);
     }
