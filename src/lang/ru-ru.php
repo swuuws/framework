@@ -89,4 +89,6 @@ return [
     'Can only be letters, numbers and connecting lines, and start with a letter' => 'Можно использовать только буквы, цифры и соединительные линии, и начинать с буквы',
     'Can only be letters, underscores and connecting lines, and start with a letter' => 'Используйте только буквы, подчеркивания и соединительные линии и начинайте с буквы',
     'Can only be letters, numbers, underscores and connecting lines, and start with a letter' => 'Используйте только буквы, цифры, подчеркивания и соединительные линии и начинайте с буквы',
+    'Cannot contain content that is not allowed' => 'Не может содержать контент, который не разрешен',
+    'Must be within the allowed range' => 'Должно быть в пределах допустимого диапазона',
 ];
