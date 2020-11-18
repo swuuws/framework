@@ -17,9 +17,17 @@ class V
     {
         return 'integer';
     }
+    public static function positiveInt()
+    {
+        return 'positiveinteger';
+    }
     public static function bool()
     {
         return 'boolean';
+    }
+    public static function zeroOrOne()
+    {
+        return 'zeroorone';
     }
     public static function float()
     {
@@ -128,5 +136,13 @@ class V
     public static function startLetterNumberHyphenUnder()
     {
         return 'startLetterNumberHyphenUnder';
+    }
+    public static function notIn()
+    {
+        return 'notIn';
+    }
+    public static function mustIn()
+    {
+        return 'mustIn';
     }
 }
