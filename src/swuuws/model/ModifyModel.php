@@ -224,7 +224,12 @@ class ModifyModel
                                         $commaLeft = '= \'' . $val['type'];
                                     }
                                     if(!empty($val['type'])){
-                                        $commaRight = ',' . trim(rtrim(ltrim(trim($val['len']), '('), ')')) . '\';';
+                                        if(!isset($val['len'])){
+                                            $commaRight = '\';';
+                                        }
+                                        else{
+                                            $commaRight = ',' . trim(rtrim(ltrim(trim($val['len']), '('), ')')) . '\';';
+                                        }
                                     }
                                     $oldArr[$okey] = $left . $commaLeft . $commaRight;
                                 }
