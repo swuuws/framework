@@ -89,4 +89,6 @@ return [
     'Can only be letters, numbers and connecting lines, and start with a letter' => '只能是字母、数字和连接线，且以字母开始',
     'Can only be letters, underscores and connecting lines, and start with a letter' => '只能是字母、下划线和连接线，且以字母开始',
     'Can only be letters, numbers, underscores and connecting lines, and start with a letter' => '只能是字母、数字、下划线和连接线，且以字母开始',
+    'Cannot contain content that is not allowed' => '不能包含不被允许的内容',
+    'Must be within the allowed range' => '必须在允许的范围内',
 ];
