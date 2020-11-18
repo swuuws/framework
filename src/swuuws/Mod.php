@@ -1388,6 +1388,6 @@ class Mod
     }
     public static function transaction($func)
     {
-        Db::transaction($func);
+        return Db::transaction($func);
     }
 }
