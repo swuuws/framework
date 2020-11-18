@@ -285,14 +285,26 @@ class Validate
                 break;
             case 'int':
             case 'integer':
-                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_INT)){
+                if(filter_var(self::$verification_goal, FILTER_VALIDATE_INT) === false){
                     self::handlingError(Lang::lang('Must be an integer'));
+                }
+                break;
+            case 'positiveint':
+            case 'positiveinteger':
+                if(filter_var(self::$verification_goal, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0]]) === false){
+                    self::handlingError(Lang::lang('Must be an positive integer'));
                 }
                 break;
             case 'bool':
             case 'boolean':
                 if(!filter_var(self::$verification_goal, FILTER_VALIDATE_BOOLEAN)){
                     self::handlingError(Lang::lang('Must be Boolean'));
+                }
+                break;
+            case 'oneorzero':
+            case 'zeroorone':
+                if(self::$verification_goal != 0 && self::$verification_goal != 1){
+                    self::handlingError(Lang::lang('Must be zero or one'));
                 }
                 break;
             case 'float':
@@ -423,6 +435,28 @@ class Validate
             case 'equal':
                 if(self::$verification_goal != self::$verification_rule_attach){
                     self::handlingError(Lang::lang('Values must be equal'));
+                }
+                break;
+            case 'notin':
+                if(!is_array(self::$verification_rule_attach)){
+                    self::$verification_rule_attach = explode(',', self::$verification_rule_attach);
+                }
+                self::$verification_rule_attach = array_map(function($v){
+                    return trim($v);
+                }, self::$verification_rule_attach);
+                if(in_array(trim(self::$verification_goal), self::$verification_rule_attach)){
+                    self::handlingError(Lang::lang('Cannot contain content that is not allowed'));
+                }
+                break;
+            case 'mustin':
+                if(!is_array(self::$verification_rule_attach)){
+                    self::$verification_rule_attach = explode(',', self::$verification_rule_attach);
+                }
+                self::$verification_rule_attach = array_map(function($v){
+                    return trim($v);
+                }, self::$verification_rule_attach);
+                if(!in_array(trim(self::$verification_goal), self::$verification_rule_attach)){
+                    self::handlingError(Lang::lang('Must be within the allowed range'));
                 }
                 break;
             case 'captcha':
