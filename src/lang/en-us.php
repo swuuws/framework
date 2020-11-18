@@ -89,4 +89,6 @@ return [
     'Can only be letters, numbers and connecting lines, and start with a letter' => 'Can only be letters, numbers and connecting lines, and start with a letter',
     'Can only be letters, underscores and connecting lines, and start with a letter' => 'Can only be letters, underscores and connecting lines, and start with a letter',
     'Can only be letters, numbers, underscores and connecting lines, and start with a letter' => 'Can only be letters, numbers, underscores and connecting lines, and start with a letter',
+    'Cannot contain content that is not allowed' => 'Cannot contain content that is not allowed',
+    'Must be within the allowed range' => 'Must be within the allowed range',
 ];
