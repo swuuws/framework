@@ -285,155 +285,155 @@ class Validate
                 break;
             case 'int':
             case 'integer':
-                if(filter_var(self::$verification_goal, FILTER_VALIDATE_INT) === false){
+                if(trim(self::$verification_goal) != '' && filter_var(self::$verification_goal, FILTER_VALIDATE_INT) === false){
                     self::handlingError(Lang::lang('Must be an integer'));
                 }
                 break;
             case 'positiveint':
             case 'positiveinteger':
-                if(filter_var(self::$verification_goal, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0]]) === false){
+                if(trim(self::$verification_goal) != '' && filter_var(self::$verification_goal, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0]]) === false){
                     self::handlingError(Lang::lang('Must be an positive integer'));
                 }
                 break;
             case 'bool':
             case 'boolean':
-                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_BOOLEAN)){
+                if(trim(self::$verification_goal) != '' && !filter_var(self::$verification_goal, FILTER_VALIDATE_BOOLEAN)){
                     self::handlingError(Lang::lang('Must be Boolean'));
                 }
                 break;
             case 'oneorzero':
             case 'zeroorone':
-                if(self::$verification_goal != 0 && self::$verification_goal != 1){
+                if(trim(self::$verification_goal) != '' && self::$verification_goal != 0 && self::$verification_goal != 1){
                     self::handlingError(Lang::lang('Must be zero or one'));
                 }
                 break;
             case 'float':
-                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_FLOAT)){
+                if(trim(self::$verification_goal) != '' && !filter_var(self::$verification_goal, FILTER_VALIDATE_FLOAT)){
                     self::handlingError(Lang::lang('Must be a floating point number'));
                 }
                 break;
             case 'url':
-                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_URL)){
+                if(trim(self::$verification_goal) != '' && !filter_var(self::$verification_goal, FILTER_VALIDATE_URL)){
                     self::handlingError(Lang::lang('Must be url'));
                 }
                 break;
             case 'email':
-                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_EMAIL)){
+                if(trim(self::$verification_goal) != '' && !filter_var(self::$verification_goal, FILTER_VALIDATE_EMAIL)){
                     self::handlingError(Lang::lang('Must be email'));
                 }
                 break;
             case 'ip':
-                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_IP)){
+                if(trim(self::$verification_goal) != '' && !filter_var(self::$verification_goal, FILTER_VALIDATE_IP)){
                     self::handlingError(Lang::lang('Must be ip'));
                 }
                 break;
             case 'number':
-                if(!is_numeric(self::$verification_goal)){
+                if(trim(self::$verification_goal) != '' && !is_numeric(self::$verification_goal)){
                     self::handlingError(Lang::lang('Must be a number'));
                 }
                 break;
             case 'date':
-                if(strtotime(self::$verification_goal) === false){
+                if(trim(self::$verification_goal) != '' && strtotime(self::$verification_goal) === false){
                     self::handlingError(Lang::lang('Must be a date'));
                 }
                 break;
             case 'regexp':
             case 'reg':
-                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => self::$verification_rule_attach]])){
+                if(trim(self::$verification_goal) != '' && !filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => self::$verification_rule_attach]])){
                     self::handlingError(Lang::lang('Must match regular expression'));
                 }
                 break;
             case 'letter':
-                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z]+$/']])){
+                if(trim(self::$verification_goal) != '' && !filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z]+$/']])){
                     self::handlingError(Lang::lang('Must be letters'));
                 }
                 break;
             case 'letternumber':
-                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z0-9]+$/']])){
+                if(trim(self::$verification_goal) != '' && !filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z0-9]+$/']])){
                     self::handlingError(Lang::lang('Can only be letters and numbers'));
                 }
                 break;
             case 'startletternumber':
-                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z][A-Za-z0-9]*$/']])){
+                if(trim(self::$verification_goal) != '' && !filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z][A-Za-z0-9]*$/']])){
                     self::handlingError(Lang::lang('Can only be letters and numbers, and start with a letter'));
                 }
                 break;
             case 'letterunder':
-                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z\_]+$/']])){
+                if(trim(self::$verification_goal) != '' && !filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z\_]+$/']])){
                     self::handlingError(Lang::lang('Only letters and underscores'));
                 }
                 break;
             case 'startletterunder':
-                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z][A-Za-z\_]*$/']])){
+                if(trim(self::$verification_goal) != '' && !filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z][A-Za-z\_]*$/']])){
                     self::handlingError(Lang::lang('Can only be letters and underscores, and start with a letter'));
                 }
                 break;
             case 'letternumberunder':
-                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z0-9\_]+$/']])){
+                if(trim(self::$verification_goal) != '' && !filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z0-9\_]+$/']])){
                     self::handlingError(Lang::lang('Only letters, numbers and underscores'));
                 }
                 break;
             case 'startletternumberunder':
-                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z][A-Za-z0-9\_]*$/']])){
+                if(trim(self::$verification_goal) != '' && !filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z][A-Za-z0-9\_]*$/']])){
                     self::handlingError(Lang::lang('Can only be letters, numbers and underscores, and start with a letter'));
                 }
                 break;
             case 'letterhyphen':
-                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z\-]+$/']])){
+                if(trim(self::$verification_goal) != '' && !filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z\-]+$/']])){
                     self::handlingError(Lang::lang('Only letters and connecting lines'));
                 }
                 break;
             case 'startletterhyphen':
-                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z][A-Za-z\-]*$/']])){
+                if(trim(self::$verification_goal) != '' && !filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z][A-Za-z\-]*$/']])){
                     self::handlingError(Lang::lang('Can only be letters and connecting lines, and start with a letter'));
                 }
                 break;
             case 'letternumberhyphen':
-                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z0-9\-]+$/']])){
+                if(trim(self::$verification_goal) != '' && !filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z0-9\-]+$/']])){
                     self::handlingError(Lang::lang('Only letters, numbers and connecting lines'));
                 }
                 break;
             case 'startletternumberhyphen':
-                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z][A-Za-z0-9\-]*$/']])){
+                if(trim(self::$verification_goal) != '' && !filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z][A-Za-z0-9\-]*$/']])){
                     self::handlingError(Lang::lang('Can only be letters, numbers and connecting lines, and start with a letter'));
                 }
                 break;
             case 'letterhyphenunder':
             case 'letterunderhyphen':
-                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z\-\_]+$/']])){
+                if(trim(self::$verification_goal) != '' && !filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z\-\_]+$/']])){
                     self::handlingError(Lang::lang('Only letters, underscores and connecting lines'));
                 }
                 break;
             case 'startletterhyphenunder':
             case 'startletterunderhyphen':
-                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z][A-Za-z\-\_]*$/']])){
+                if(trim(self::$verification_goal) != '' && !filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z][A-Za-z\-\_]*$/']])){
                     self::handlingError(Lang::lang('Can only be letters, underscores and connecting lines, and start with a letter'));
                 }
                 break;
             case 'letternumberhyphenunder':
             case 'letternumberunderhyphen':
-                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z0-9\-\_]+$/']])){
+                if(trim(self::$verification_goal) != '' && !filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z0-9\-\_]+$/']])){
                     self::handlingError(Lang::lang('Can only be letters, numbers, underscores, connecting lines'));
                 }
                 break;
             case 'startletternumberhyphenunder':
             case 'startletternumberunderhyphen':
-                if(!filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z][A-Za-z0-9\-\_]*$/']])){
+                if(trim(self::$verification_goal) != '' && !filter_var(self::$verification_goal, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[A-Za-z][A-Za-z0-9\-\_]*$/']])){
                     self::handlingError(Lang::lang('Can only be letters, numbers, underscores and connecting lines, and start with a letter'));
                 }
                 break;
             case 'maxlen':
-                if(mb_strlen(self::$verification_goal) > intval(trim(self::$verification_rule_attach))){
+                if(trim(self::$verification_goal) != '' && (mb_strlen(self::$verification_goal) > intval(trim(self::$verification_rule_attach)))){
                     self::handlingError(Lang::lang('The length exceeds the allowable range'));
                 }
                 break;
             case 'minlen':
-                if(mb_strlen(self::$verification_goal) < intval(trim(self::$verification_rule_attach))){
+                if(trim(self::$verification_goal) != '' && (mb_strlen(self::$verification_goal) < intval(trim(self::$verification_rule_attach)))){
                     self::handlingError(Lang::lang('Length is less than allowable range'));
                 }
                 break;
             case 'equal':
-                if(self::$verification_goal != self::$verification_rule_attach){
+                if(trim(self::$verification_goal) != '' && (self::$verification_goal != self::$verification_rule_attach)){
                     self::handlingError(Lang::lang('Values must be equal'));
                 }
                 break;
@@ -444,7 +444,7 @@ class Validate
                 self::$verification_rule_attach = array_map(function($v){
                     return trim($v);
                 }, self::$verification_rule_attach);
-                if(in_array(trim(self::$verification_goal), self::$verification_rule_attach)){
+                if(trim(self::$verification_goal) != '' && in_array(trim(self::$verification_goal), self::$verification_rule_attach)){
                     self::handlingError(Lang::lang('Cannot contain content that is not allowed'));
                 }
                 break;
@@ -455,7 +455,7 @@ class Validate
                 self::$verification_rule_attach = array_map(function($v){
                     return trim($v);
                 }, self::$verification_rule_attach);
-                if(!in_array(trim(self::$verification_goal), self::$verification_rule_attach)){
+                if(trim(self::$verification_goal) != '' && !in_array(trim(self::$verification_goal), self::$verification_rule_attach)){
                     self::handlingError(Lang::lang('Must be within the allowed range'));
                 }
                 break;
