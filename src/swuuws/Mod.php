@@ -105,7 +105,7 @@ class Mod
             'perPage' => $perPage,
             'totalPage' => $totalPage,
             'query' => $query,
-            'item' => Model::getAll(),
+            'items' => Model::getAll(),
             'pages' => $pages[1],
             'pagesInner' => $pages[0]
         ];
