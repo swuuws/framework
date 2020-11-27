@@ -186,6 +186,7 @@ class Paginate
             $resultArr['next'] = [$nextUrl, $next, ($currentPage < $totalPage) ? true : false];
         }
         $resultArr['list'] = $pageArr;
+        $resultArr['alwaysShow'] = Env::get('PAGINATE_ALWAYS_SHOW');
         return $resultArr;
     }
 }
