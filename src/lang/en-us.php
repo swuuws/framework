@@ -91,4 +91,12 @@ return [
     'Can only be letters, numbers, underscores and connecting lines, and start with a letter' => 'Can only be letters, numbers, underscores and connecting lines, and start with a letter',
     'Cannot contain content that is not allowed' => 'Cannot contain content that is not allowed',
     'Must be within the allowed range' => 'Must be within the allowed range',
+    'Invalid image file' => 'Invalid image file',
+    'Failed to decode GIF image' => 'Failed to decode GIF image',
+    'Failed to get image' => 'Failed to get image',
+    'Image save failed' => 'Image save failed',
+    'The image width or height cannot be less than 0' => 'The image width or height cannot be less than 0',
+    'Only horizontal flip (x) and vertical flip (y)' => 'Only horizontal flip (x) and vertical flip (y)',
+    'Font file not found' => 'Font file not found',
+    'Wrong color value' => 'Wrong color value',
 ];
