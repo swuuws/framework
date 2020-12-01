@@ -91,4 +91,12 @@ return [
     'Can only be letters, numbers, underscores and connecting lines, and start with a letter' => '只能是字母、数字、下划线和连接线，且以字母开始',
     'Cannot contain content that is not allowed' => '不能包含不被允许的内容',
     'Must be within the allowed range' => '必须在允许的范围内',
+    'Invalid image file' => '无效的图片文件',
+    'Failed to decode GIF image' => '解码GIF图片失败',
+    'Failed to get image' => '获取图片失败',
+    'Image save failed' => '图像保存失败',
+    'The image width or height cannot be less than 0' => '图片宽度或者高度不能小于0',
+    'Only horizontal flip (x) and vertical flip (y)' => '只能水平翻转（x）和垂直翻转（y）',
+    'Font file not found' => '字体文件没找到',
+    'Wrong color value' => '颜色值错误',
 ];
