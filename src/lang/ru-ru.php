@@ -91,4 +91,12 @@ return [
     'Can only be letters, numbers, underscores and connecting lines, and start with a letter' => 'Используйте только буквы, цифры, подчеркивания и соединительные линии и начинайте с буквы',
     'Cannot contain content that is not allowed' => 'Не может содержать контент, который не разрешен',
     'Must be within the allowed range' => 'Должно быть в пределах допустимого диапазона',
+    'Invalid image file' => 'Неверный файл изображения',
+    'Failed to decode GIF image' => 'Не удалось декодировать изображение в формате GIF',
+    'Failed to get image' => 'Не удалось получить изображение',
+    'Image save failed' => 'Не удалось сохранить изображение',
+    'The image width or height cannot be less than 0' => 'Ширина или высота изображения не может быть меньше 0',
+    'Only horizontal flip (x) and vertical flip (y)' => 'Только горизонтальный флип (x) и вертикальный флип (y)',
+    'Font file not found' => 'Файл шрифта не найден',
+    'Wrong color value' => 'Неправильное значение цвета',
 ];
