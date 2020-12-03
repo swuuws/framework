@@ -175,7 +175,7 @@ class Swuuws
         }
         return false;
     }
-    public static function load($mm)
+    public static function load($mm, $param)
     {
         if(strpos($mm, '-') !== false){
             throw new RouteException(4);
@@ -205,7 +205,7 @@ class Swuuws
                 $mmArr[1] = self::transform($mmArr[1], false);
             }
             $mm = $mmArr[0] . '\\' . $mclass;
-            Load::load($mm, $mmArr[1], self::$param);
+            Load::load($mm, $mmArr[1], $param);
         }
     }
     public static function loadUrl()
