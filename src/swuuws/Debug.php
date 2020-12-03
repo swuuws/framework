@@ -42,6 +42,6 @@ class Debug
     }
     public static function version()
     {
-        return 'swuuws 3.0.0';
+        return 'swuuws 3.5.0';
     }
 }
