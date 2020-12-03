@@ -28,8 +28,16 @@ class Date
      * @param  none
      * @return string
      */
-    public static function year()
+    public static function year($time = null)
     {
+        if(!empty($time)){
+            if(gettype($time) == 'integer'){
+                return date('Y', $time);
+            }
+            else{
+                return date('Y', strtotime($time));
+            }
+        }
         return date('Y');
     }
     /**
@@ -38,8 +46,16 @@ class Date
      * @param  none
      * @return string
      */
-    public static function month()
+    public static function month($time = null)
     {
+        if(!empty($time)){
+            if(gettype($time) == 'integer'){
+                return date('m', $time);
+            }
+            else{
+                return date('m', strtotime($time));
+            }
+        }
         return date('m');
     }
     /**
@@ -48,8 +64,16 @@ class Date
      * @param  none
      * @return string
      */
-    public static function day()
+    public static function day($time = null)
     {
+        if(!empty($time)){
+            if(gettype($time) == 'integer'){
+                return date('d', $time);
+            }
+            else{
+                return date('d', strtotime($time));
+            }
+        }
         return date('d');
     }
     /**
@@ -58,8 +82,16 @@ class Date
      * @param  none
      * @return string
      */
-    public static function hour()
+    public static function hour($time = null)
     {
+        if(!empty($time)){
+            if(gettype($time) == 'integer'){
+                return date('H', $time);
+            }
+            else{
+                return date('H', strtotime($time));
+            }
+        }
         return date('H');
     }
     /**
@@ -68,8 +100,16 @@ class Date
      * @param  none
      * @return string
      */
-    public static function minute()
+    public static function minute($time = null)
     {
+        if(!empty($time)){
+            if(gettype($time) == 'integer'){
+                return date('i', $time);
+            }
+            else{
+                return date('i', strtotime($time));
+            }
+        }
         return date('i');
     }
     /**
@@ -78,8 +118,16 @@ class Date
      * @param  none
      * @return string
      */
-    public static function second()
+    public static function second($time = null)
     {
+        if(!empty($time)){
+            if(gettype($time) == 'integer'){
+                return date('s', $time);
+            }
+            else{
+                return date('s', strtotime($time));
+            }
+        }
         return date('s');
     }
     /**
