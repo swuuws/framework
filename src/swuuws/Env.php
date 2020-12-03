@@ -54,6 +54,10 @@ class Env
             }
         }
     }
+    public static function set($name, $value)
+    {
+        self::$env[$name] = $value;
+    }
     public static function has($name)
     {
         $name = trim($name);
