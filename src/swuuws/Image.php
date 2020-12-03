@@ -118,7 +118,24 @@ class Image
         $dst_y = 0;
         $src_x = 0;
         $src_y = 0;
-        if($position == 'center'){
+        if(is_array($position)){
+            if(isset($position[0])){
+                $src_x = intval($position[0]);
+            }
+            if(isset($position[1])){
+                $src_y = intval($position[1]);
+            }
+        }
+        elseif(strpos($position, ',') !== false){
+            $xyArr = explode(',', str_replace(' ', '', $position));
+            if(isset($xyArr[0])){
+                $src_x = intval($xyArr[0]);
+            }
+            if(isset($xyArr[1])){
+                $src_y = intval($xyArr[1]);
+            }
+        }
+        elseif($position == 'center'){
             $src_x = round((self::$width - $width) / 2);
             $src_y = round((self::$height - $height) / 2);
         }
