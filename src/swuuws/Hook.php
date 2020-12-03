@@ -16,7 +16,12 @@ class Hook
     {
         $name = trim($name);
         if(is_array($exec)){
-            self::$swuuws_hook[$name] = array_merge(self::$swuuws_hook[$name], $exec);
+            if(isset(self::$swuuws_hook[$name])){
+                self::$swuuws_hook[$name] = array_merge(self::$swuuws_hook[$name], $exec);
+            }
+            else{
+                self::$swuuws_hook[$name] = $exec;
+            }
         }
         else{
             self::$swuuws_hook[$name][] = trim($exec);
