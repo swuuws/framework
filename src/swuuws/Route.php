@@ -31,8 +31,11 @@ class Route
         else{
             Load::loadSingleFile(APP . 'route' . DS . 'web.php');
             if(!self::$matched){
-                if(!empty(self::$missed)){
-                    Swuuws::load(self::$missed);
+                if($routeType == 'both'){
+                    Swuuws::loadUrl();
+                }
+                elseif(!empty(self::$missed)){
+                    Swuuws::load(self::$missed, self::$param);
                 }
                 elseif(Swuuws::match('swuuwscaptcha')){
                     call_user_func('swuuws\\Captcha::captchaShow');
@@ -44,7 +47,7 @@ class Route
             }
             else{
                 if(is_string(self::$func)){
-                    Swuuws::load(self::$func);
+                    Swuuws::load(self::$func, self::$param);
                 }
                 else{
                     call_user_func_array(self::$func, self::$param);
@@ -307,17 +310,21 @@ class Route
                 $name = self::autoUrl($name, $array);
             }
         }
+        $root = Request::root();
         if(!empty($name) && $name != '/'){
             $suffix = Env::get('ADDRESS_SUFFIX');
             if(!empty($suffix)){
                 $name .= '.' . trim($suffix, '.');
             }
+            $rewrite = Env::get('OPENED_REWRITE');
+            if($rewrite == 'off' || ($rewrite == 'auto' && (strpos(Request::uri(), 'index.php') !== false || !Request::isRewrite()))){
+                $root .= 'index.php/';
+            }
+            return $root . ltrim($name, '/');
         }
-        $root = Request::root();
-        if(strpos(Request::uri(), 'index.php') !== false){
-            $root .= 'index.php/';
+        else{
+            return $root;
         }
-        return $root . ltrim($name, '/');
     }
     private static function autoUrl($name, $array = [])
     {
