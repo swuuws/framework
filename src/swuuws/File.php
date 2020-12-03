@@ -61,6 +61,24 @@ class File
                 }
             }
         }
+        $dir->close();
+    }
+    public static function deleteFolder($path)
+    {
+        $dir = dir($path);
+        while(false !== ($entry = $dir->read())){
+            if($entry!='.' && $entry!='..'){
+                $entry = $path . DS . $entry;
+                if(is_file($entry)){
+                    @unlink($entry);
+                }
+                else{
+                    self::deleteFolder($entry);
+                }
+            }
+        }
+        $dir->close();
+        @rmdir($path);
     }
     public static function get($name = 'file')
     {
