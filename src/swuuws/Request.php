@@ -30,6 +30,18 @@ class Request
         }
         return false;
     }
+    public static function isRewrite()
+    {
+        if(function_exists('apache_get_modules') && in_array('mod_rewrite', apache_get_modules())){
+            return true;
+        }
+        elseif(isset($_SERVER['IIS_UrlRewriteModule'])){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     public static function script()
     {
         $script = empty($_SERVER['SCRIPT_NAME']) ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
@@ -46,8 +58,9 @@ class Request
         $script = self::script();
         if(substr($script, -4) == '.php'){
             $script = dirname($script);
+            $script = str_replace('\\', '/', $script);
         }
-        return self::host() . $script . '/';
+        return self::host() . rtrim($script, '/') . '/';
     }
     public static function uri()
     {
@@ -103,22 +116,52 @@ class Request
         if(empty($name)){
             if($conversion){
                 foreach($_POST as $key => $val){
-                    $_POST[$key] = htmlspecialchars(urldecode($val), ENT_QUOTES, 'UTF-8');
+                    if(is_array($val)){
+                        foreach($val as $skey => $sval){
+                            $_POST[$key][$skey] = htmlspecialchars(urldecode($sval), ENT_QUOTES, 'UTF-8');
+                        }
+                    }
+                    else{
+                        $_POST[$key] = htmlspecialchars(urldecode($val), ENT_QUOTES, 'UTF-8');
+                    }
                 }
             }
             else{
                 foreach($_POST as $key => $val){
-                    $_POST[$key] = urldecode($val);
+                    if(is_array($val)){
+                        foreach($val as $skey => $sval){
+                            $_POST[$key][$skey] = urldecode($sval);
+                        }
+                    }
+                    else{
+                        $_POST[$key] = urldecode($val);
+                    }
                 }
             }
             return $_POST;
         }
         elseif(isset($_POST[$name])){
             if($conversion){
-                return htmlspecialchars(urldecode($_POST[$name]), ENT_QUOTES, 'UTF-8');
+                if(is_array($_POST[$name])){
+                    foreach($_POST[$name] as $skey => $sval){
+                        $_POST[$name][$skey] = htmlspecialchars(urldecode($sval), ENT_QUOTES, 'UTF-8');
+                    }
+                    return $_POST[$name];
+                }
+                else{
+                    return htmlspecialchars(urldecode($_POST[$name]), ENT_QUOTES, 'UTF-8');
+                }
             }
             else{
-                return urldecode($_POST[$name]);
+                if(is_array($_POST[$name])){
+                    foreach($_POST[$name] as $skey => $sval){
+                        $_POST[$name][$skey] = urldecode($sval);
+                    }
+                    return $_POST[$name];
+                }
+                else{
+                    return urldecode($_POST[$name]);
+                }
             }
         }
         else{
@@ -144,22 +187,52 @@ class Request
         if(empty($name)){
             if($conversion){
                 foreach($_GET as $key => $val){
-                    $_GET[$key] = htmlspecialchars(urldecode($val), ENT_QUOTES, 'UTF-8');
+                    if(is_array($val)){
+                        foreach($val as $skey => $sval){
+                            $_GET[$key][$skey] = htmlspecialchars(urldecode($sval), ENT_QUOTES, 'UTF-8');
+                        }
+                    }
+                    else{
+                        $_GET[$key] = htmlspecialchars(urldecode($val), ENT_QUOTES, 'UTF-8');
+                    }
                 }
             }
             else{
                 foreach($_GET as $key => $val){
-                    $_GET[$key] = urldecode($val);
+                    if(is_array($val)){
+                        foreach($val as $skey => $sval){
+                            $_GET[$key][$skey] = urldecode($sval);
+                        }
+                    }
+                    else{
+                        $_GET[$key] = urldecode($val);
+                    }
                 }
             }
             return $_GET;
         }
         elseif(isset($_GET[$name])){
             if($conversion){
-                return htmlspecialchars(urldecode($_GET[$name]), ENT_QUOTES, 'UTF-8');
+                if(is_array($_GET[$name])){
+                    foreach($_GET[$name] as $skey => $sval){
+                        $_GET[$name][$skey] = htmlspecialchars(urldecode($sval), ENT_QUOTES, 'UTF-8');
+                    }
+                    return $_GET[$name];
+                }
+                else{
+                    return htmlspecialchars(urldecode($_GET[$name]), ENT_QUOTES, 'UTF-8');
+                }
             }
             else{
-                return urldecode($_GET[$name]);
+                if(is_array($_GET[$name])){
+                    foreach($_GET[$name] as $skey => $sval){
+                        $_GET[$name][$skey] = urldecode($sval);
+                    }
+                    return $_GET[$name];
+                }
+                else{
+                    return urldecode($_GET[$name]);
+                }
             }
         }
         else{
@@ -225,12 +298,26 @@ class Request
             else{
                 if($conversion){
                     foreach(self::$dataArr as $key => $val){
-                        self::$dataArr[$key] = htmlspecialchars(urldecode($val), ENT_QUOTES, 'UTF-8');
+                        if(is_array($val)){
+                            foreach($val as $skey => $sval){
+                                self::$dataArr[$key][$skey] = htmlspecialchars(urldecode($sval), ENT_QUOTES, 'UTF-8');
+                            }
+                        }
+                        else{
+                            self::$dataArr[$key] = htmlspecialchars(urldecode($val), ENT_QUOTES, 'UTF-8');
+                        }
                     }
                 }
                 else{
                     foreach(self::$dataArr as $key => $val){
-                        self::$dataArr[$key] = urldecode($val);
+                        if(is_array($val)){
+                            foreach($val as $skey => $sval){
+                                self::$dataArr[$key][$skey] = urldecode($sval);
+                            }
+                        }
+                        else{
+                            self::$dataArr[$key] = urldecode($val);
+                        }
                     }
                 }
                 return self::$dataArr;
@@ -238,10 +325,26 @@ class Request
         }
         elseif(isset(self::$dataArr[$name])){
             if($conversion){
-                return htmlspecialchars(urldecode(self::$dataArr[$name]), ENT_QUOTES, 'UTF-8');
+                if(is_array(self::$dataArr[$name])){
+                    foreach(self::$dataArr[$name] as $skey => $sval){
+                        self::$dataArr[$name][$skey] = htmlspecialchars(urldecode($sval), ENT_QUOTES, 'UTF-8');
+                    }
+                    return self::$dataArr[$name];
+                }
+                else{
+                    return htmlspecialchars(urldecode(self::$dataArr[$name]), ENT_QUOTES, 'UTF-8');
+                }
             }
             else{
-                return urldecode(self::$dataArr[$name]);
+                if(is_array(self::$dataArr[$name])){
+                    foreach(self::$dataArr[$name] as $skey => $sval){
+                        self::$dataArr[$name][$skey] = urldecode($sval);
+                    }
+                    return self::$dataArr[$name];
+                }
+                else{
+                    return urldecode(self::$dataArr[$name]);
+                }
             }
         }
         else{
