@@ -1087,9 +1087,9 @@ class Mod
         if(count($attrArr) > 0){
             $this->_swuuws_select[$className]['field'] = $attrArr;
         }
-        if($relation != null){
+        if($relation !== null){
             $uarr = [];
-            if($relationArr != null){
+            if($relationArr !== null){
                 if(!is_array($relationArr)){
                     $relationArr = [$relationArr];
                 }
@@ -1135,8 +1135,8 @@ class Mod
             $setv .= empty($setv) ? $dcon : ', ' . $dcon;
         }
         $sql = 'UPDATE ' . $this->tableName() . ' SET ' . $setv;
-        if($relation != null){
-            if($relationArr != null){
+        if($relation !== null){
+            if($relationArr !== null){
                 if(!is_array($relationArr)){
                     $relationArr = [$relationArr];
                 }
@@ -1190,7 +1190,7 @@ class Mod
         }
         else{
             $condition = $relation;
-            if($relationArr != null){
+            if($relationArr !== null){
                 if(!is_array($relationArr)){
                     $relationArr = [$relationArr];
                 }
