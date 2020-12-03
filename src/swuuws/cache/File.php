@@ -118,7 +118,7 @@ class File implements iCache
     }
     private static function serialize($value)
     {
-        return '<?php' . PHP_EOL . '//' . serialize($value);
+        return '<?php' . PHP_EOL . 'exit();//' . serialize($value);
     }
     private static function unserialize($value)
     {
