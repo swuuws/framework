@@ -170,7 +170,7 @@ class View
             $ltmpStr = str_replace(['\\\'', '\\"'], '', $leftStr);
             $ltmpStr = str_replace('\'', '"', $ltmpStr);
             $ltmpStr = preg_replace('/".*?"/', '', $ltmpStr);
-            if(strpos($leftStr, PHP_EOL) !== false || strpos($ltmpStr, ':') !== false || strpos($ltmpStr, ';') !== false){
+            if(strpos($leftStr, PHP_EOL) !== false || strpos($leftStr, $front) !== false || strpos($ltmpStr, ':') !== false || strpos($ltmpStr, ';') !== false){
                 $midArr[] = ['type' => 'str', 'string' => $front . $tmp];
             }
             else{
@@ -178,6 +178,12 @@ class View
                 $rightStr = substr($tmp, $backPos + $backLen);
                 if($rightStr === false){
                     $rightStr = '';
+                }
+                if(false !== $lastn = strrpos($rightStr,PHP_EOL)){
+                    $redundancy = trim(substr($rightStr, $lastn));
+                    if(empty($redundancy)){
+                        $rightStr = substr($rightStr, 0, $lastn);
+                    }
                 }
                 $midArr[] = ['type' => 'str', 'string' => $rightStr];
             }
@@ -233,7 +239,7 @@ class View
                     $keyArr = self::toOne();
                     $testStr = explode('.', $tmpStr)[0];
                     if(in_array($testStr, $keyArr)){
-                        $php .= self::line('$reStr .= $' . self::swuuws($tmpStr, true) . ';');
+                        $php .= self::line('$reStr .= ' . self::swuuws($tmpStr, true) . ';');
                     }
                     else{
                         $php .= self::line('$reStr .= ' . self::swuuws($tmpStr) . ';');
@@ -316,19 +322,42 @@ class View
     }
     private static function parseSwuuws($statement)
     {
-        $pos = strpos($statement, '(');
-        $fun = trim(substr($statement, 0, $pos));
-        $param = trim(substr($statement, $pos));
-        $param = substr($param, 1, strlen($param) - 2);
-        $string = self::funcName($fun) . '(';
-        $param = self::parseParam($param);
-        $string .= $param . ')';
+        if(preg_match('/^\w+\s*\(.*\)$/', $statement)){
+            $pos = strpos($statement, '(');
+            $fun = trim(substr($statement, 0, $pos));
+            $param = trim(substr($statement, $pos));
+            $param = substr($param, 1, strlen($param) - 2);
+            $string = self::funcName($fun) . '(';
+            $param = self::parseParam($param);
+            $string .= $param . ')';
+        }
+        else{
+            $states = [];
+            $stateArr = self::separate($statement);
+            foreach($stateArr as $val){
+                if($val['type'] == 'exp'){
+                    $states[] = self::analyze($val['string']);
+                }
+                else{
+                    $states[] = $val['string'];
+                }
+            }
+            $string = implode(' ', $states);
+        }
         return $string;
     }
     private static function parseAssign($statement)
     {
         $pos = strpos($statement, '=');
-        $left = self::swuuws(trim(substr($statement, 0, $pos)));
+        $left = trim(substr($statement, 0, $pos));
+        $inloop = false;
+        if(strpos($left, '.') !== false){
+            $testStr = explode('.', $left)[0];
+            if(in_array($testStr, self::toOne())){
+                $inloop = true;
+            }
+        }
+        $left = self::swuuws($left, $inloop);
         $right = trim(substr($statement, $pos + 1));
         if(preg_match('/^(\w+)\s*\((.*)\)$/', $right, $matches)){
             $string = $left . ' = ' . self::funcName($matches[1]) . '(' . self::parseParam($matches[2]) . ')';
@@ -356,10 +385,17 @@ class View
         $param = trim(substr($statement, 0, $pos));
         $func = trim(substr($statement, $pos + 1));
         $leftIndex = strpos($func, '(');
+        $inloop = false;
+        if(strpos($param, '.') !== false){
+            $testStr = explode('.', $param)[0];
+            if(in_array($testStr, self::toOne())){
+                $inloop = true;
+            }
+        }
         $funName = trim(substr($func, 0, $leftIndex));
         $others = trim(substr($func, $leftIndex + 1, strlen($func) - $leftIndex - 2));
         $othersParam = self::parseParam($others);
-        $string = self::funcName($funName) . '(' . self::swuuws($param) . ', ' . $othersParam . ')';
+        $string = self::funcName($funName) . '(' . self::swuuws($param, $inloop) . ', ' . $othersParam . ')';
         return $string;
     }
     private static function parseParam($statement)
@@ -424,6 +460,9 @@ class View
                 $loop[trim($key)] = trim(trim(trim(trim($val), '"'), '\''));
             }
         }
+        if(!isset($loop['key'])){
+            $loop['key'] = 'key';
+        }
         self::$loop[] = [$loop['item'], $loop['key']];
         $string = '';
         if(isset($loop['offset']) && !empty($loop['offset'])){
@@ -438,7 +477,13 @@ class View
         else{
             $string .= self::line('$' . $loop['item'] . '_len = -1;');
         }
-        $string .= self::line('foreach(' . self::swuuws($loop['name']) . ' as $' . $loop['key'] . ' => $' . $loop['item'] . '){');
+        $testStr = explode('.', $loop['name'])[0];
+        if(in_array($testStr, self::toOne())){
+            $string .= self::line('foreach(' . self::swuuws($loop['name'], true) . ' as $' . $loop['key'] . ' => $' . $loop['item'] . '){');
+        }
+        else{
+            $string .= self::line('foreach(' . self::swuuws($loop['name']) . ' as $' . $loop['key'] . ' => $' . $loop['item'] . '){');
+        }
         $string .= self::line('if($' . $loop['item'] . '_offset > 0){');
         $string .= self::line('$' . $loop['item'] . '_offset -- ;');
         $string .= self::line('continue;');
@@ -455,7 +500,7 @@ class View
     {
         $tmpArr = explode('.', $string);
         if($inloop){
-            $tmp = array_shift($tmpArr);
+            $tmp = '$' . array_shift($tmpArr);
         }
         else{
             $tmp = '$swuuws';
@@ -478,7 +523,12 @@ class View
             }
         }
         $stateArr = explode('.', $statement);
-        $tmp = '$swuuws';
+        if(in_array($stateArr[0], self::toOne())){
+            $tmp = '$' . array_shift($stateArr);
+        }
+        else{
+            $tmp = '$swuuws';
+        }
         foreach($stateArr as $tval){
             $tmp .= '[\'' . $tval . '\']';
         }
@@ -584,7 +634,7 @@ class View
                 else{
                     $testStr = explode('.', $val)[0];
                     if(in_array($testStr, $keyArr)){
-                        $stateArr[$key] = '$' . self::swuuws($val, true);
+                        $stateArr[$key] = self::swuuws($val, true);
                     }
                     else{
                         $stateArr[$key] = self::swuuws($val);
